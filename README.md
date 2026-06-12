@@ -19,3 +19,14 @@ Data cleaning (zero pricing, converting paise to rupees) .
 Business analysis using SQL (revenue, stock analysis, product segmentation) .
 Identified patterns in pricing, discounts and inventory to support strategic business decisions.
 
+#Fourth project :- Advanced Data Analytic Project 
+A comprehensive data analytics project covering 7 core analytical techniques applied to real-world datasets using SQL Server.
+
+#Analysis TypeDescription:-
+1)Changes Over Time -- Track trends and patterns across time periods
+2)Cumulative Analysis -- Running totals and progressive growth metrics
+3)Performance Analysis -- Benchmarking and KPI evaluation
+4)Part-To-Whole Analysis -- Percentage contribution and composition breakdown
+5)Data Segmentation -- Customer/product grouping by behavior or attributes
+6)Customer Report -- Consolidated view of customer-level insights
+7)Product Report -- Consolidated view of product-level insights
