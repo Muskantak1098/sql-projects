@@ -1,22 +1,24 @@
 -- Change over time analysis
 -- Analyze sales performance over time
-
 /*
+
 select year(order_date) as year,sum(sales_amount) as total_sales,
 count(distinct customer_key) as total_customers from gold.fact_sales
 where year(order_date) is not null
 group by year(order_date)
-order by year(order_date);
+order by year(order_date)
 
 -- Cumulative Analysis:-
 -- Calculate the total sales per month and the running total of sales over time
 
-select datetrunc(month,order_date) as month_year,sum(sales_amount) as total_sales,avg(price) as avg_price
-from gold.fact_sales where order_date is not null
-group by datetrunc(month,order_date);   
 
-select month(order_date) as months,price,avg(price)as avg_price from gold.fact_sales
-group by month(order_date),price;
+select order_date,total_sales,sum(total_sales) over(order by order_date) as running_total_sales,avg(avg_price) over(order by order_date) as moving_average_price
+from (
+select datetrunc(month,order_date) as order_date,sum(sales_amount) as total_sales,avg(price) as avg_price from gold.fact_sales
+where order_date is not null
+group by datetrunc(month,order_date)) t;
+
+
 
 -- Performance Analysis:-
 -- Analyze the yearly performance of products by comparing each product's sales to both its average sales performance and the previous year's sales
@@ -106,13 +108,13 @@ from customers_spendings) t
 group by customer_segment
 order by total_customers desc;
 
-
-
+*/
+GO
 -- CUSTOMER REPORT--
 
 --1 Gathers essential fields such as names,ages and transaction details
 
-CREATE VIEW gold.report_customers as 
+ CREATE VIEW gold.report_customers as 
 with base_query as (select f.order_number,f.product_key,f.order_date,f.sales_amount,f.quantity,
 c.customer_key,c.customer_number,concat(c.first_name,' ',last_name) as customer_name,datediff(year,c.birthdate,getdate()) as age
 from gold.fact_sales f
@@ -160,7 +162,7 @@ else total_sales/life_span
 end as avearge_monthly_spend
 from customer_aggregations;
 
-*/
+GO
 
 -- PRODUCT_REPORT
 
@@ -208,8 +210,7 @@ end as average_order_revenue,
 case when life_span=0 then total_sales                         --average_monthly _spend
 else total_sales/life_span
 end as avearge_monthly_revenue
-from products_aggregation;
-
+from products_aggregation
 
 
 
